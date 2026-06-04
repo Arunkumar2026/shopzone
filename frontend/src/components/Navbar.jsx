@@ -71,7 +71,7 @@ const Navbar = ({ search, setSearch, category, setCategory, sortOptions, setSort
                 <Link to="/signup">Signup</Link>
             </div>
 
-            <div className='md:hidden text-2xl cursor-pointer' onClick={() => setMenuOpen(!menuOpen)}>
+            <div className='lg:hidden text-2xl cursor-pointer' onClick={() => setMenuOpen(!menuOpen)}>
                 {menuOpen ? <FaTimes/> : <FaBars/> }
             </div>
         </div>
