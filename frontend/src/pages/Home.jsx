@@ -4,10 +4,14 @@ import { getProducts } from "../services/productService"
 import ProductCard from "../components/ProductCard";
 import { FaPassport } from "react-icons/fa";
 
+import SkeletonCard from "../components/SkeletonCard";
 
 const Home = ({ search, category, sortOptions }) => {
 
   const [products, setProducts] = useState([]);
+
+  const [lodaing, setLoading] = useState(true);
+
 
   const filteredProducts = products.filter((product) => {
     const matchesSearch = product.title.toLowerCase().includes(search.toLowerCase());
@@ -52,16 +56,38 @@ const Home = ({ search, category, sortOptions }) => {
   }
 
   const fetchProducts = async () => {
-    const data = await getProducts();
-    setProducts(data);
+    // const data = await getProducts();
+    // setProducts(data);
+
+    try {
+      setLoading(true);
+
+      const data = await getProducts();
+
+      setProducts(data);
+
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
 
   return (
     <div className="p-5 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
-      {sortedProducts.map((product) => (
+      {/* {sortedProducts.map((product) => (
         <ProductCard key={product.id} product={product}/>
-      ))}
+      ))} */}
+
+      { lodaing ? Array.from({ length: 8 }).map((_, index) => (
+        <SkeletonCard key={index}/>
+      ))
+      : sortedProducts.map((product) => (
+        <ProductCard key={product.id} product={product} />
+      ))
+
+      }
     </div>
   )
 }
